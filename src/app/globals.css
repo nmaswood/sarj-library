@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.site-wrapper {
+  @apply min-h-screen flex flex-col;
+
+  header {
+    @apply bg-blue-600 text-white p-4;
+    .header-container {
+      @apply mx-auto container flex justify-between items-center;
+      .branding {
+        @apply text-xl font-bold;
+      }
+    }
+  }
+  .main-content {
+    @apply flex flex-1 container mx-auto p-4;
+    main {
+      @apply flex-1 bg-white p-6 rounded-lg shadow-md ml-4;
+      h1 {
+        @apply text-2xl font-bold mb-4;
+      }
+      .items-list {
+        @apply border border-gray-300 rounded-lg divide-y divide-gray-300;
+        
+        .items-row {
+          @apply flex font-medium text-gray-700 cursor-pointer;
+        }
+        .header-row {
+          @apply bg-gray-100;
+        }
+        .item-cell {
+          @apply flex-1 p-2;
+        }
+        .action-btns-cell {
+          @apply flex gap-8 items-center;
+        }
+      }
+
+      .book-search {
+        @apply relative w-full mb-3;
+        .search-box {
+          @apply w-full p-2 border border-gray-300 rounded;
+        }
+        .drop-down {
+          @apply absolute bg-white border border-gray-300 w-full mt-1 p-2 z-50;
+          .drop-down-item {
+            @apply p-2 hover:bg-gray-100 cursor-pointer;
+          }
+        }
+        .results-drop-down {
+          @apply rounded shadow-lg max-h-60 overflow-y-auto;
+        }
+
+      }
+      .error-msg {
+        @apply text-red-500 ;
+      }
+      .success-msg {
+        @apply text-green-500;
+      }
+      .close-button {
+        @apply absolute top-1 right-3 bg-none border-none text-2xl text-gray-800 cursor-pointer;
+      }
+      
+      .close-button:hover {
+        @apply text-red-500;
+      }
+      .book-details {
+        @apply my-4 p-4 border border-gray-300 rounded shadow-md bg-white relative;
+
+      }
+      
+      .get-book-button {
+        @apply bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mb-4;
+      }
+      
+      .view-book-button {
+        @apply bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 mb-4;
+      }
+      
+      .disabled-button {
+        @apply bg-gray-400 text-gray-700 cursor-not-allowed;
+      }
+      
+      .book-title {
+        @apply text-xl font-bold mb-2;
+      }
+      
+      .book-meta {
+        @apply text-gray-700 mb-2;
+      }
+
+    }
+  }
+  footer {
+    @apply bg-gray-800 text-white p-4;
+    .footer-container {
+      @apply container mx-auto text-center;
+    }
+  }
+}
+
+.modal {
+  @apply fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50;
+}
+
+.modal-content {
+  @apply bg-white p-5 rounded-lg w-4/5 max-w-3xl text-left overflow-y-auto max-h-[80%];
+}
+
+.book-text {
+  @apply whitespace-pre-wrap font-mono my-5;
+}
+
+.close-modal-button {
+  @apply inline-block px-4 py-2 bg-red-500 text-white rounded-md cursor-pointer text-sm;
+}
+
+.close-modal-button:hover {
+  @apply bg-red-600;
+}
+
+.modal-header {
+  @apply flex justify-between border-b-2 py-2;
+}
