@@ -1,0 +1,127 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL") // Replace with your database connection string
+}
+
+model Book {
+  id                Int                  @id @default(autoincrement())
+  title             String
+  media_type        String
+  copy_right        Boolean?
+  authors           BookAuthor[]         // Relation to BookAuthor
+  translators       BookTranslator[]     // Relation to BookTranslator
+  bookshelves       BookBookshelf[]      // Relation to BookBookshelf
+  languages         BookLanguage[]       // Relation to BookLanguage
+  subjects          BookSubject[]        // Relation to BookSubject
+  formats           Format[]             // Relation to Format
+  plotSummaries     PlotSummary[]        // Relation to PlotSummary
+  characters        Character[]          // Relation to Character
+  sentimentAnalyses SentimentAnalysis[]  // Relation to SentimentAnalysis
+}
+
+model PlotSummary {
+  id               Int                  @id @default(autoincrement())
+  summary          String               @db.Text
+  arabicTranslate  String               @db.Text
+  bookId           Int
+  book             Book                 @relation(fields: [bookId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Character {
+  id              Int                @id @default(autoincrement())
+  name            String
+  classification  String
+  alignment       String
+  bookId          Int
+  book            Book               @relation(fields: [bookId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model SentimentAnalysis {
+  id              Int            @id @default(autoincrement())
+  sentiment       String         @db.Text
+  bookId          Int
+  book            Book           @relation(fields: [bookId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model BookAuthor {
+  person_id Int
+  book_id   Int
+  person    Person @relation(fields: [person_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  book      Book   @relation(fields: [book_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([person_id, book_id])
+}
+
+model BookTranslator {
+  person_id Int
+  book_id   Int
+  person    Person @relation(fields: [person_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  book      Book   @relation(fields: [book_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([person_id, book_id])
+}
+
+model BookBookshelf {
+  book_id  Int
+  shelf_id Int
+  book     Book      @relation(fields: [book_id], references: [id], onDelete: Cascade, onUpdate: Cascade) @unique
+  shelf    Bookshelf @relation(fields: [shelf_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([book_id, shelf_id])
+}
+
+model BookLanguage {
+  book_id       Int
+  language_code String
+  book          Book     @relation(fields: [book_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  language      Language @relation(fields: [language_code], references: [code], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([book_id, language_code])
+}
+
+model BookSubject {
+  book_id   Int
+  subject_id Int
+  book      Book    @relation(fields: [book_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  subject   Subject @relation(fields: [subject_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([book_id, subject_id])
+}
+
+model Format {
+  mime_type String @id
+  url       String
+  book_id   Int
+  book      Book @relation(fields: [book_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Language {
+  code     String          @id
+  language String
+  books    BookLanguage[]  // Relation to BookLanguage
+}
+
+model Person {
+  id         Int              @id @default(autoincrement())
+  name       String           @unique
+  birth_year Int
+  death_year Int
+  authored_books  BookAuthor[]  // Relation to BookAuthor
+  translated_books BookTranslator[] // Relation to BookTranslator
+}
+
+model Bookshelf {
+  id    Int             @id @default(autoincrement())
+  name  String
+  books BookBookshelf[] // Relation to BookBookshelf
+}
+
+model Subject {
+  id    Int           @id @default(autoincrement())
+  name  String        @unique
+  books BookSubject[] // Relation to BookSubject
+}
